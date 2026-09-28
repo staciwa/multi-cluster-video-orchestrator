@@ -1,0 +1,40 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Project specifics
+karmada_config
+kubeconfig*
+
+# Data and models
+dataset*/
+generated*/
+poc_dataset/
+*.pth
+*.pt
+*.zip
+*.log
+
+# IDEs and OS
+.vscode/
+.idea/
+.DS_Store
+*.swp
+
+# Packaging
+*.egg-info/
+build/
+dist/
+
+# Docker
+.dockerignore

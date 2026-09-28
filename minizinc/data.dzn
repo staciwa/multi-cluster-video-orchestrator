@@ -1,0 +1,52 @@
+% --- 1. Environment Configuration ---
+
+ResourceTypes = { vCPU, RAM };
+
+% 1 instance handles max 2 demands.
+% If 3 demands -> solver must run 2 instances.
+SRSCapacity = 2; 
+
+% Instance Parameters (1 instance consumes):
+SRSResources = [ 2, 4 ]; % 2 vCPU, 4 GB RAM
+
+% Global Limits and Costs (latency unit = 0.1 ms)
+MaxLatency = 400;        % Max 40.0 ms latency
+LatencyPer10km = 10;     % 10 km = 1.0 ms latency (thus Max range = 400 km)
+TransmissionCost = 1;   % Transmission cost per km
+MigrationCost = 50;     % Demand transfer cost
+UnservedPenalty = 10000; % Very high penalty, so solver avoids unserved
+
+Clusters_ = 2;
+Demands_ = 4;
+
+Alpha_Cost = 0.5;
+Beta_Latency = 0.5;
+
+% --- 2. Cluster Resources and Costs ---
+
+% Cluster 1: SMALL and CHEAP
+% Cluster 2: LARGE and EXPENSIVE
+DeploymentCost = [ 100, 500 ]; 
+
+Resources = [| 
+  6, 12 |   % Cluster 1: Has resources for max 3 instances (3*2=6 vCPU) -> max 6 demands
+  20, 40 |]; % Cluster 2: Has resources for 10 instances (large margin)
+
+% --- 3. Distances and Demands ---
+
+% Rows = Demands (D1..D4), Columns = Clusters (C1, C2)
+Distances = [| 
+  10, 200 |   % D1: Bardzo blisko C1 (10km), dalej od C2
+  600, 20 |   % D2: Za daleko od C1 (>400km limitu!), blisko C2
+  10, 10  |   % D3: Close to both (deployment/instance cost decides)
+  1000, 1000 |]; % D4: Too far from everything (must be Unserved)
+
+% --- 4. Initial State (for migration test) ---
+
+% D1 was previously in C2.
+% Since C1 is much cheaper and closer, the solver should move D1 to C1 (paying MigrationCost).
+InitialPlacement = [| 
+  0, 1 | 
+  0, 0 |
+  0, 0 |
+  0, 0 |];

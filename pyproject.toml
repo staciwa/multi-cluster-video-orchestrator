@@ -1,0 +1,28 @@
+[project]
+name = "multi-cluster-video-orchestrator"
+version = "0.1.0"
+description = "Hybrid resource orchestration system for real-time video services in a multi-cluster environment"
+readme = "README.md"
+requires-python = "==3.12.*"
+dependencies = [
+    "gymnasium>=1.2.0",
+    "kubernetes>=35.0.0",
+    "matplotlib>=3.10.9",
+    "minizinc>=0.10.0",
+    "numpy>=2.0.0",
+    "pandas>=3.0.3",
+    "stable-baselines3>=2.8.0",
+    "sb3-contrib>=2.8.0",
+    "torch==2.5.1",
+    "torch-geometric>=2.7.0",
+    "tensorboard>=2.20.0",
+    "python-pptx>=1.0.2",
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
